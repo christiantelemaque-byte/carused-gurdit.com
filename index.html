@@ -3,28 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabernacle des Ambassadeurs Divin</title>
+    <title>CarUsed - Vehicle History Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stripe Buy Button SDK -->
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    
     <style>
-        /* Modern CSS Reset and Variables */
         :root {
-            --primary: #2A5CAA;
-            --primary-light: #3A7BEA;
-            --primary-dark: #1A4785;
-            --secondary: #F6B93B;
-            --secondary-light: #FFD166;
-            --accent: #EA5455;
-            --dark: #1A1D29;
-            --light: #F8F9FA;
-            --gray: #6C757D;
-            --gray-light: #E9ECEF;
-            --border-radius: 12px;
-            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-md: 0 6px 15px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --font-heading: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+            --primary-color: #0A2463;
+            --secondary-color: #D9A273;
+            --bg-color: #F8F9FA;
+            --surface-color: #FFFFFF;
+            --heading-color: #1a202c;
+            --text-color: #4a5568;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
         }
 
         * {
@@ -33,1528 +30,869 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: var(--font-body);
-            line-height: 1.6;
-            color: var(--dark);
-            background-color: var(--light);
+            font-family: 'Lexend', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
             overflow-x: hidden;
+            padding-top: 95px;
         }
 
         h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            line-height: 1.2;
+            font-family: 'Lexend', sans-serif;
+            color: var(--heading-color);
+            font-weight: 600;
         }
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .btn {
+            transition: all 0.3s ease;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 6px rgba(10, 36, 99, 0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: #081c4a;
+            border-color: #081c4a;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(10, 36, 99, 0.2);
         }
 
         .section-padding {
             padding: 80px 0;
         }
 
-        /* Modern Header */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-sm);
-            z-index: 1000;
-            transition: var(--transition);
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            box-shadow: var(--shadow-md);
-        }
-
-        .logo-text h1 {
-            font-size: 1.4rem;
-            color: var(--primary);
-            margin-bottom: 2px;
-        }
-
-        .logo-text p {
-            font-size: 0.85rem;
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        /* Modern Navigation */
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2px;
-        }
-
-        .nav-link {
-            padding: 12px 20px;
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 600;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link:hover {
-            background: var(--gray-light);
-            color: var(--primary);
-        }
-
-        .nav-link.active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: var(--secondary);
-            transition: var(--transition);
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        /* Language Selector Modern */
-        .language-selector {
-            position: relative;
-            margin-left: 15px;
-        }
-
-        .language-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-            background: white;
-            border: 2px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--dark);
-            transition: var(--transition);
-        }
-
-        .language-btn:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .language-flag {
-            width: 24px;
-            height: 16px;
-            border-radius: 3px;
-            object-fit: cover;
-        }
-
-        .language-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 10px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            width: 180px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: var(--transition);
-            z-index: 100;
-        }
-
-        .language-dropdown.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .language-option {
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .language-option:last-child {
-            border-bottom: none;
-        }
-
-        .language-option:hover {
-            background: var(--gray-light);
-        }
-
-        .language-option.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Mobile Toggle */
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--dark);
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-
-        .mobile-toggle:hover {
-            background: var(--gray-light);
-        }
-
-        /* Modern Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            background: linear-gradient(135deg, rgba(42, 92, 170, 0.9) 0%, rgba(26, 71, 133, 0.95) 100%),
-                        url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: white;
-            padding: 120px 0 80px;
-        }
-
-        .hero-content {
-            max-width: 700px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero h2 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
-            color: var(--dark);
-            text-decoration: none;
-            border-radius: var(--border-radius);
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-            background: linear-gradient(135deg, var(--secondary-light) 0%, var(--secondary) 100%);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-            box-shadow: none;
-        }
-
-        .btn-outline:hover {
-            background: white;
-            color: var(--primary);
-        }
-
-        /* Modern Cards */
-        .card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 40px;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-            height: 100%;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .card-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-
-        /* Grid Layout */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .grid-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        /* Section Titles */
         .section-title {
-            text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
-
         .section-title h2 {
-            font-size: 2.8rem;
-            color: var(--primary);
-            margin-bottom: 15px;
+            font-size: 2.5rem;
+            font-weight: 600;
             position: relative;
             display: inline-block;
+            padding-bottom: 20px;
+            line-height: 1.3;
         }
-
         .section-title h2::after {
             content: '';
             position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--secondary);
-            border-radius: 2px;
-        }
-
-        .section-title p {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Modern About Section */
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 60px;
-        }
-
-        .about-image {
-            flex: 1;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: var(--transition);
-        }
-
-        .about-image:hover img {
-            transform: scale(1.05);
-        }
-
-        .about-text {
-            flex: 1;
-        }
-
-        .about-text h3 {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        .stats {
-            display: flex;
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: block;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-
-        /* Modern Mission Section */
-        .mission-highlights {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            border-radius: var(--border-radius);
-            padding: 60px;
-            margin-bottom: 60px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mission-highlights::before {
-            content: '';
-            position: absolute;
-            top: 0;
             left: 0;
-            right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.05"><path d="M0,500Q250,400,500,500T1000,500V1000H0Z" fill="white"/></svg>');
-            background-size: cover;
-        }
-
-        .mission-highlights h3 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Modern Contact Section */
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .contact-details h4 {
-            margin-bottom: 5px;
-            color: var(--primary);
-        }
-
-        .contact-form .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid var(--gray-light);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: var(--transition);
-            font-family: var(--font-body);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(42, 92, 170, 0.1);
-        }
-
-        /* Modern Donate Section */
-        .donate-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .donate-option {
-            text-align: center;
-            padding: 40px 30px;
-            border-radius: var(--border-radius);
-            background: white;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-            border: 2px solid transparent;
-        }
-
-        .donate-option:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .donate-option.featured {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .donate-option.featured h4,
-        .donate-option.featured p {
-            color: white;
-        }
-
-        .donate-option.featured .btn {
-            background: white;
-            color: var(--primary);
-        }
-
-        /* Modern Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 80px 0 30px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h3 {
-            color: var(--secondary);
-            margin-bottom: 25px;
-            font-size: 1.4rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .footer-links a:hover {
-            color: var(--secondary);
-            transform: translateX(5px);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .social-link:hover {
-            background: var(--secondary);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero h2 {
-                font-size: 2.8rem;
-            }
-            
-            .about-content {
-                flex-direction: column;
-                gap: 40px;
-            }
-            
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background: white;
-                flex-direction: column;
-                padding: 20px;
-                box-shadow: var(--shadow-md);
-                transform: translateY(-100%);
-                opacity: 0;
-                visibility: hidden;
-                transition: var(--transition);
-                z-index: 999;
-            }
-
-            .nav-menu.active {
-                transform: translateY(0);
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .mobile-toggle {
-                display: block;
-            }
-
-            .hero h2 {
-                font-size: 2.2rem;
-            }
-
-            .section-title h2 {
-                font-size: 2.2rem;
-            }
-
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .donate-option.featured {
-                transform: none;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero {
-                padding: 100px 0 60px;
-            }
-
-            .hero h2 {
-                font-size: 1.8rem;
-            }
-
-            .card {
-                padding: 30px 20px;
-            }
-
-            .mission-highlights {
-                padding: 40px 30px;
-            }
-
-            .section-padding {
-                padding: 60px 0;
-            }
-        }
-
-        /* Animation Classes */
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .slide-up {
-            animation: slideUp 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--gray-light);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
+            width: 60px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             border-radius: 5px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
+        /* Navbar Styling */
+        .navbar {
+            padding: 15px 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1040;
+        }
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.6rem;
+            color: var(--heading-color) !important;
+        }
+        .navbar-brand span {
+            color: var(--secondary-color);
+        }
+        .nav-link {
+            color: var(--heading-color) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+
+        /* VIN Search Section */
+        .vin-search-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a3a8f 100%);
+            color: white;
+            padding: 100px 0;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .vin-search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .vin-search-container h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .vin-search-container p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .vin-form {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .vin-input {
+            flex: 1;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Payment Section */
+        .payment-section {
+            padding: 100px 0;
+            display: none;
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .payment-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .payment-header p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--secondary-color);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--secondary-color);
+            color: white;
+            padding: 8px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 20px 0;
+        }
+
+        .popular .price {
+            color: var(--secondary-color);
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .feature-included i {
+            color: var(--success-color);
+        }
+
+        .feature-excluded i {
+            color: var(--danger-color);
+        }
+
+        .pricing-features span {
+            flex: 1;
+        }
+
+        /* Stripe Button Container */
+        .stripe-button-container {
+            margin-top: 20px;
+            min-height: 50px;
+        }
+
+        .stripe-button-container stripe-buy-button {
+            width: 100%;
+        }
+
+        /* How to Order Section */
+        .how-to-order-section {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .step-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0 auto 25px;
+        }
+
+        .step-card h4 {
+            margin-bottom: 15px;
+            color: var(--heading-color);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 100px 0;
+            background: var(--bg-color);
+        }
+
+        .contact-form {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .form-control {
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(10, 36, 99, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--heading-color);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .vin-search-container h1 {
+                font-size: 2.2rem;
+            }
+            .vin-form {
+                flex-direction: column;
+            }
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+
+        .modal-header {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            padding: 25px 30px;
+        }
+
+        .modal-title {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .btn-close {
+            background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+            opacity: 0.8;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <!-- Modern Header -->
-    <header>
-        <div class="container header-container">
-            <a href="#" class="logo" data-section="home">
-                <div class="logo-icon">
-                    <i class="fas fa-hands-praying"></i>
-                </div>
-                <div class="logo-text">
-                    <h1 id="church-name">Tabernacle des Ambassadeurs Divin</h1>
-                    <p id="church-tagline">Une Église de l'Espérance, de la Foi et de l'Amour</p>
-                </div>
-            </a>
-
-            <button class="mobile-toggle" id="mobile-toggle">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Car<span>Used</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fas fa-bars"></i>
             </button>
-
-            <nav>
-                <ul class="nav-menu" id="nav-menu">
-                    <li><a href="#" data-section="home" class="nav-link active">Accueil</a></li>
-                    <li><a href="#" data-section="about" class="nav-link">À Propos</a></li>
-                    <li><a href="#" data-section="mission" class="nav-link">Notre Mission</a></li>
-                    <li><a href="#" data-section="contact" class="nav-link">Contact</a></li>
-                    <li><a href="#" data-section="donate" class="nav-link">Faire un Don</a></li>
-                </ul>
-
-                <div class="language-selector">
-                    <button class="language-btn" id="language-btn">
-                        <img src="https://flagcdn.com/w20/fr.png" alt="French" class="language-flag">
-                        <span>FR</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="language-dropdown" id="language-dropdown">
-                        <div class="language-option active" data-lang="fr">
-                            <img src="https://flagcdn.com/w20/fr.png" alt="French" class="language-flag">
-                            <span>Français</span>
-                        </div>
-                        <div class="language-option" data-lang="en">
-                            <img src="https://flagcdn.com/w20/gb.png" alt="English" class="language-flag">
-                            <span>English</span>
-                        </div>
-                        <div class="language-option" data-lang="es">
-                            <img src="https://flagcdn.com/w20/es.png" alt="Spanish" class="language-flag">
-                            <span>Español</span>
-                        </div>
-                    </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="#home">Home</a>
+                    <a class="nav-link" href="#how-to-order">How to Order</a>
+                    <a class="nav-link" href="#contact">Contact Us</a>
                 </div>
-            </nav>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="section active hero">
+    <!-- Home Section -->
+    <section id="home">
+        <!-- VIN Search Section -->
+        <div class="vin-search-section">
             <div class="container">
-                <div class="hero-content slide-up">
-                    <h2 id="hero-title">Bienvenue au Tabernacle des Ambassadeurs Divin</h2>
-                    <p id="hero-text">Une communauté de foi dédiée à servir Dieu et à partager l'amour du Christ. Rejoignez-nous dans notre voyage spirituel alors que nous cherchons à grandir dans la foi et à faire une différence dans notre communauté.</p>
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                        <a href="#" data-section="about" class="btn" id="learn-more-btn">
-                            <i class="fas fa-arrow-right"></i> En Savoir Plus
-                        </a>
-                        <a href="#" data-section="contact" class="btn btn-outline" id="join-us-btn">
-                            <i class="fas fa-users"></i> Nous Rejoindre
-                        </a>
+                <div class="vin-search-container">
+                    <h1>Get Your Vehicle History Report</h1>
+                    <p>Enter your VIN to check vehicle history and get detailed reports</p>
+                    
+                    <div class="vin-form">
+                        <input type="text" class="vin-input" placeholder="Enter 17-character VIN (e.g., JHLRW2H5XKX010064)" id="vinInput">
+                        <button class="btn btn-primary" id="searchVinBtn">
+                            <i class="fas fa-search"></i> Check Vehicle
+                        </button>
                     </div>
+                    
+                    <p class="mt-3" style="opacity: 0.8;">Your VIN is located on your dashboard or driver's side door jamb</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- About Section -->
-        <section id="about" class="section section-padding">
-            <div class="container">
-                <div class="section-title fade-in">
-                    <h2 id="about-title">À Propos de Nous</h2>
-                    <p id="about-subtitle">Découvrez notre histoire, nos valeurs et notre vision pour l'avenir</p>
+    <!-- Payment Section -->
+    <section id="payment-section" class="payment-section">
+        <div class="container">
+            <div class="payment-header">
+                <h2>Select Your Report Type</h2>
+                <p>Choose the report that best fits your needs for VIN: <strong id="payment-vin"></strong></p>
+            </div>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Regular Report</h3>
+                    <div class="price">$19.99</div>
+                    <p>Basic vehicle information and specifications</p>
+                    
+                    <ul class="pricing-features">
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Vehicle Specifications</span>
+                        </li>
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Basic History Check</span>
+                        </li>
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Dimensions & Weights</span>
+                        </li>
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Manufacturer Pricing</span>
+                        </li>
+                        <li class="feature-excluded">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Accident History</span>
+                        </li>
+                        <li class="feature-excluded">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Sales Records</span>
+                        </li>
+                        <li class="feature-excluded">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Detailed Service History</span>
+                        </li>
+                    </ul>
+                    
+                    <!-- Stripe Button Container for Regular Report -->
+                    <div class="stripe-button-container" id="stripe-button-container-regular">
+                        <stripe-buy-button
+                            buy-button-id="buy_btn_1SfQa9FiAep3lhtUT3XublXz"
+                            publishable-key="pk_live_Z3DOEXDkQ29anfNUNNsk2XNb"
+                        >
+                        </stripe-buy-button>
+                    </div>
+                    <p class="mt-2" style="font-size: 0.9rem; color: var(--text-color);">
+                        After payment, you'll be redirected to view your report.
+                    </p>
                 </div>
-
-                <div class="about-content fade-in">
-                    <div class="about-image">
-                        <img src="https://images.unsplash.com/photo-1545231027-637d2f6210f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Notre Église">
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">MOST POPULAR</div>
+                    <h3>Premium Report</h3>
+                    <div class="price">$100</div>
+                    <p>Complete vehicle history and detailed analysis</p>
+                    
+                    <ul class="pricing-features">
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Everything in Regular Report</span>
+                        </li>
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Complete Accident History</span>
+                        </li>
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Detailed Sales Records</span>
+                        </li>
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Theft & Title Records</span>
+                        </li>
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Service History</span>
+                        </li>
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Odometer Verification</span>
+                        </li>
+                        <li class="feature-included">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Priority Support</span>
+                        </li>
+                    </ul>
+                    
+                    <!-- PayPal Button Container for Premium Report -->
+                    <div class="stripe-button-container" id="paypal-container-premium">
+                        <div class="paypal-button-container" id="paypal-button-container-premium"></div>
                     </div>
-                    <div class="about-text">
-                        <h3 id="about-heading">Notre Histoire et Notre Vision</h3>
-                        <p id="about-text1">Tabernacle des Ambassadeurs Divin a été fondée en 2005 avec la vision de créer une communauté de croyants qui reflètent l'amour et la grâce de Dieu dans notre monde.</p>
-                        <p id="about-text2">Nous croyons en la puissance transformatrice de l'Évangile et nous nous engageons à être des ambassadeurs de Christ dans notre communauté et au-delà.</p>
-                        
-                        <div class="stats">
-                            <div class="stat-item">
-                                <span class="stat-number" id="members-count">850+</span>
-                                <span class="stat-label" id="members-label">Membres</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number" id="years-count">18</span>
-                                <span class="stat-label" id="years-label">Années</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number" id="ministries-count">12</span>
-                                <span class="stat-label" id="ministries-label">Ministères</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-2" style="margin-top: 80px;">
-                    <div class="card fade-in">
-                        <div class="card-icon">
-                            <i class="fas fa-bible"></i>
-                        </div>
-                        <h3 id="beliefs-title">Nos Croyances</h3>
-                        <p id="beliefs-text">Nous croyons en un seul Dieu éternel existant en trois personnes: le Père, le Fils et le Saint-Esprit. Nous affirmons l'autorité des Écritures et le salut par grâce.</p>
-                    </div>
-                    <div class="card fade-in">
-                        <div class="card-icon">
-                            <i class="fas fa-hands-helping"></i>
-                        </div>
-                        <h3 id="values-title">Nos Valeurs</h3>
-                        <p id="values-text">L'amour, la compassion, l'intégrité et le service sont au cœur de tout ce que nous faisons. Nous nous efforçons de vivre ces valeurs dans notre communauté.</p>
-                    </div>
+                    <p class="mt-2" style="font-size: 0.9rem; color: var(--text-color);">
+                        After payment, you'll be redirected to view your report.
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Mission Section -->
-        <section id="mission" class="section section-padding" style="background: var(--gray-light);">
-            <div class="container">
-                <div class="section-title fade-in">
-                    <h2 id="mission-title">Notre Mission</h2>
-                    <p id="mission-subtitle">Notre appel et notre engagement envers la communauté</p>
+    <!-- How to Order Section -->
+    <section id="how-to-order" class="how-to-order-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>How to Order</h2>
+                <p class="lead">Get your vehicle history report in 3 simple steps</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Enter Your VIN</h4>
+                    <p>Locate your 17-character Vehicle Identification Number on your dashboard, door jamb, or registration documents and enter it above.</p>
                 </div>
-
-                <div class="mission-highlights fade-in">
-                    <h3 id="mission-statement">Faire des disciples de Jésus-Christ, les équiper pour le ministère et les envoyer transformer le monde par l'amour et la puissance de l'Évangile.</h3>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Select Report Type</h4>
+                    <p>Choose between our Regular Report ($19.99) for basic information or Premium Report ($100) for comprehensive history including accidents, sales records, and more.</p>
                 </div>
-
-                <div class="grid grid-2 fade-in">
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-church"></i>
-                        </div>
-                        <h3 id="worship-title">Culte & Adoration</h3>
-                        <p id="worship-text">Nous nous réunissons chaque dimanche pour célébrer et adorer Dieu ensemble. Nos services combinent louanges dynamiques et enseignements bibliques pertinents.</p>
-                        <p id="worship-times" style="margin-top: 15px; font-weight: 600; color: var(--primary);">Dimanche: 9h00 & 11h00 | Mercredi: 19h00</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-hands-praying"></i>
-                        </div>
-                        <h3 id="community-title">Communauté & Service</h3>
-                        <p id="community-text">Nous servons notre communauté à travers divers ministères: groupes de prière, études bibliques, soutien aux familles, et initiatives sociales.</p>
-                        <p id="community-action" style="margin-top: 15px; font-weight: 600; color: var(--primary);">Rejoignez l'un de nos 12 groupes de ministère</p>
-                    </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Complete Payment</h4>
+                    <p>Click the payment button for your chosen report. You'll be redirected to complete your payment securely. After payment, you'll view your report.</p>
                 </div>
             </div>
-        </section>
+            
+            <div class="text-center mt-5">
+                <p class="mb-3"><strong>Note:</strong> All reports are delivered digitally. No physical copies are mailed.</p>
+                <a href="#home" class="btn btn-primary">Get Started Now</a>
+            </div>
+        </div>
+    </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="section section-padding">
-            <div class="container">
-                <div class="section-title fade-in">
-                    <h2 id="contact-title">Contactez-Nous</h2>
-                    <p id="contact-subtitle">Nous sommes là pour vous écouter et vous accompagner</p>
-                </div>
-
-                <div class="contact-container fade-in">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4 id="address-title">Adresse</h4>
-                                <p id="address-text">123 Rue de la Foi<br>Ville de l'Espérance, 75000</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4 id="phone-title">Téléphone</h4>
-                                <p id="phone-text">+33 1 23 45 67 89</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4 id="email-title">Email</h4>
-                                <p id="email-text">contact@tabernacledivine.org</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h4 id="hours-title">Heures d'Ouverture</h4>
-                                <p id="hours-text">Lundi-Vendredi: 9h-17h<br>Samedi: 10h-14h</p>
-                            </div>
-                        </div>
-                    </div>
-
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>Contact Us</h2>
+                <p class="lead">Have questions? Get in touch with our team</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
                     <div class="contact-form">
-                        <h3 id="form-title" style="margin-bottom: 30px;">Envoyez-nous un Message</h3>
-                        <form id="contactForm">
-                            <div class="form-group">
-                                <input type="text" id="name" class="form-control" placeholder="Votre nom complet" required>
+                        <form id="contactForm" action="https://formspree.io/f/mqazwnyb" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="email" id="email" class="form-control" placeholder="Votre adresse email" required>
+                            
+                            <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                            
+                            <textarea class="form-control" name="message" placeholder="Your Message" required></textarea>
+                            
+                            <input type="hidden" name="_replyto" value="christiantelemaque@gmail.com">
+                            <input type="hidden" name="_subject" value="New Contact Form Submission from CarUsed">
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-paper-plane"></i> Send Message
+                                </button>
                             </div>
-                            <div class="form-group">
-                                <input type="text" id="subject" class="form-control" placeholder="Sujet du message" required>
-                            </div>
-                            <div class="form-group">
-                                <textarea id="message" class="form-control" rows="5" placeholder="Votre message" required></textarea>
-                            </div>
-                            <button type="submit" class="btn" id="submit-btn" style="width: 100%;">
-                                <i class="fas fa-paper-plane"></i> Envoyer le Message
-                            </button>
                         </form>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Donate Section -->
-        <section id="donate" class="section section-padding" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: white;">
-            <div class="container">
-                <div class="section-title fade-in">
-                    <h2 style="color: white;" id="donate-title">Soutenir Notre Mission</h2>
-                    <p style="color: rgba(255, 255, 255, 0.9);" id="donate-subtitle">Votre générosité nous aide à faire une différence</p>
-                </div>
-
-                <div class="donate-options fade-in">
-                    <div class="donate-option">
-                        <div class="card-icon" style="background: var(--secondary); margin: 0 auto 20px;">
-                            <i class="fas fa-gift"></i>
-                        </div>
-                        <h4 id="one-time-title">Don Unique</h4>
-                        <p id="one-time-text">Faites un don unique pour soutenir nos ministères et projets</p>
-                        <button class="btn" id="one-time-btn" style="margin-top: 20px; background: white; color: var(--primary);">
-                            Donner Maintenant
-                        </button>
-                    </div>
-                    <div class="donate-option featured">
-                        <div class="card-icon" style="background: white; color: var(--primary); margin: 0 auto 20px;">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <h4>Don Mensuel</h4>
-                        <p>Soutenez-nous régulièrement pour un impact durable</p>
-                        <button class="btn" id="monthly-btn" style="margin-top: 20px;">
-                            Devenir Partenaire
-                        </button>
-                    </div>
-                    <div class="donate-option">
-                        <div class="card-icon" style="background: var(--accent); margin: 0 auto 20px;">
-                            <i class="fas fa-hand-holding-heart"></i>
-                        </div>
-                        <h4 id="specific-title">Don Spécifique</h4>
-                        <p id="specific-text">Soutenez un ministère ou projet spécifique</p>
-                        <button class="btn" id="specific-btn" style="margin-top: 20px; background: white; color: var(--primary);">
-                            Choisir un Projet
-                        </button>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 50px;">
-                    <p id="donate-text" style="max-width: 600px; margin: 0 auto; color: rgba(255, 255, 255, 0.9);">
-                        Chaque don, quelle que soit sa taille, nous aide à poursuivre notre mission de partager l'amour de Christ, de soutenir notre communauté et de maintenir nos ministères. Nous nous engageons à une gestion responsable et transparente de tous les dons reçus.
-                    </p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Modern Footer -->
-    <footer>
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3 id="footer-about-title">Tabernacle des Ambassadeurs Divin</h3>
-                    <p id="footer-about-text">Une communauté de foi dédiée à servir Dieu et à partager l'amour du Christ avec le monde. Nous nous engageons à être des ambassadeurs de Christ dans notre communauté et au-delà.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h3 id="footer-links-title">Navigation</h3>
-                    <ul class="footer-links">
-                        <li><a href="#" data-section="home"><i class="fas fa-chevron-right"></i> Accueil</a></li>
-                        <li><a href="#" data-section="about"><i class="fas fa-chevron-right"></i> À Propos</a></li>
-                        <li><a href="#" data-section="mission"><i class="fas fa-chevron-right"></i> Notre Mission</a></li>
-                        <li><a href="#" data-section="contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
-                        <li><a href="#" data-section="donate"><i class="fas fa-chevron-right"></i> Faire un Don</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3 id="footer-contact-title">Contact Rapide</h3>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-phone"></i> +33 1 23 45 67 89</a></li>
-                        <li><a href="#"><i class="fas fa-envelope"></i> contact@tabernacledivine.org</a></li>
-                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Rue de la Foi, 75000</a></li>
-                    </ul>
-                </div>
+            <div class="footer-links">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#refundModal">Refund Policy</a>
+                <a href="#how-to-order">Features</a>
+                <a href="#contact">Contact Us</a>
             </div>
-            <div class="copyright">
-                <p id="copyright-text">&copy; 2023 Tabernacle des Ambassadeurs Divin. Tous droits réservés.</p>
+            
+            <div class="footer-copyright">
+                <p>&copy; 2024 CarUsed. All rights reserved. | Vehicle reports are for informational purposes only.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Refund Policy Modal -->
+    <div class="modal fade" id="refundModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Refund Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>Digital Product Refund Policy</h4>
+                    <p><strong>Last Updated: January 1, 2024</strong></p>
+                    
+                    <h5 class="mt-4">1. No Refunds for Digital Downloads</h5>
+                    <p>Due to the nature of digital products, all sales of vehicle history reports are final. Once a report has been accessed, downloaded, or delivered via email, no refunds will be issued under any circumstances.</p>
+                    
+                    <h5 class="mt-4">2. Product Description</h5>
+                    <p>We provide detailed descriptions of our Regular ($19.99) and Premium ($100) reports on our website. Customers are responsible for reviewing these descriptions before purchase. Refunds will not be granted based on customer expectations that differ from the product description.</p>
+                    
+                    <h5 class="mt-4">3. Technical Issues</h5>
+                    <p>If you experience technical difficulties accessing your report, please contact our support team at support@carused.com. We will work to resolve any legitimate technical issues but cannot issue refunds for reports that have been successfully delivered to your email address.</p>
+                    
+                    <h5 class="mt-4">4. Data Accuracy Disclaimer</h5>
+                    <p>Our reports compile information from various sources. While we strive for accuracy, we cannot guarantee the completeness or accuracy of the information provided. Refunds will not be issued based on the content or accuracy of the information in reports.</p>
+                    
+                    <h5 class="mt-4">5. Unauthorized Purchases</h5>
+                    <p>If you believe your purchase was unauthorized, you must contact us within 24 hours of the purchase date. We will investigate and may issue a refund at our discretion if the claim is validated.</p>
+                    
+                    <h5 class="mt-4">6. Customer Responsibility</h5>
+                    <p>Customers are responsible for ensuring they enter the correct VIN number before purchase. No refunds will be issued for reports generated with incorrect VIN numbers provided by the customer.</p>
+                    
+                    <h5 class="mt-4">7. Contact Information</h5>
+                    <p>For any questions about this policy, please contact us at:</p>
+                    <ul>
+                        <li>Email: support@carused.com</li>
+                        <li>Phone: (555) 123-4567</li>
+                        <li>Business Hours: Monday-Friday, 9AM-5PM EST</li>
+                    </ul>
+                    
+                    <div class="alert alert-warning mt-4">
+                        <strong>Important:</strong> By purchasing any report from CarUsed, you acknowledge and agree to this no-refund policy for digital products.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Privacy Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>Privacy Policy</h4>
+                    <p><strong>Last Updated: January 1, 2024</strong></p>
+                    <p>CarUsed respects your privacy and is committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights.</p>
+                    
+                    <h5 class="mt-4">Information We Collect</h5>
+                    <p>We collect information you provide directly to us, such as when you request a vehicle report, create an account, or contact us for support.</p>
+                    
+                    <h5 class="mt-4">How We Use Your Information</h5>
+                    <p>We use the information we collect to provide, maintain, and improve our services, to process transactions, and to communicate with you.</p>
+                    
+                    <h5 class="mt-4">Data Security</h5>
+                    <p>We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Multilingual content with modern structure
-        const translations = {
-            fr: {
-                // Navigation
-                "home": "Accueil",
-                "about": "À Propos",
-                "mission": "Notre Mission",
-                "contact": "Contact",
-                "donate": "Faire un Don",
-                
-                // Header
-                "church-name": "Tabernacle des Ambassadeurs Divin",
-                "church-tagline": "Une Église de l'Espérance, de la Foi et de l'Amour",
-                
-                // Hero Section
-                "hero-title": "Bienvenue au Tabernacle des Ambassadeurs Divin",
-                "hero-text": "Une communauté de foi dédiée à servir Dieu et à partager l'amour du Christ. Rejoignez-nous dans notre voyage spirituel alors que nous cherchons à grandir dans la foi et à faire une différence dans notre communauté.",
-                "learn-more-btn": "En Savoir Plus",
-                "join-us-btn": "Nous Rejoindre",
-                
-                // About Section
-                "about-title": "À Propos de Nous",
-                "about-subtitle": "Découvrez notre histoire, nos valeurs et notre vision pour l'avenir",
-                "about-heading": "Notre Histoire et Notre Vision",
-                "about-text1": "Tabernacle des Ambassadeurs Divin a été fondée en 2005 avec la vision de créer une communauté de croyants qui reflètent l'amour et la grâce de Dieu dans notre monde.",
-                "about-text2": "Nous croyons en la puissance transformatrice de l'Évangile et nous nous engageons à être des ambassadeurs de Christ dans notre communauté et au-delà.",
-                "members-count": "850+",
-                "members-label": "Membres",
-                "years-count": "18",
-                "years-label": "Années",
-                "ministries-count": "12",
-                "ministries-label": "Ministères",
-                "beliefs-title": "Nos Croyances",
-                "beliefs-text": "Nous croyons en un seul Dieu éternel existant en trois personnes: le Père, le Fils et le Saint-Esprit. Nous affirmons l'autorité des Écritures et le salut par grâce.",
-                "values-title": "Nos Valeurs",
-                "values-text": "L'amour, la compassion, l'intégrité et le service sont au cœur de tout ce que nous faisons. Nous nous efforçons de vivre ces valeurs dans notre communauté.",
-                
-                // Mission Section
-                "mission-title": "Notre Mission",
-                "mission-subtitle": "Notre appel et notre engagement envers la communauté",
-                "mission-statement": "Faire des disciples de Jésus-Christ, les équiper pour le ministère et les envoyer transformer le monde par l'amour et la puissance de l'Évangile.",
-                "worship-title": "Culte & Adoration",
-                "worship-text": "Nous nous réunissons chaque dimanche pour célébrer et adorer Dieu ensemble. Nos services combinent louanges dynamiques et enseignements bibliques pertinents.",
-                "worship-times": "Dimanche: 9h00 & 11h00 | Mercredi: 19h00",
-                "community-title": "Communauté & Service",
-                "community-text": "Nous servons notre communauté à travers divers ministères: groupes de prière, études bibliques, soutien aux familles, et initiatives sociales.",
-                "community-action": "Rejoignez l'un de nos 12 groupes de ministère",
-                
-                // Contact Section
-                "contact-title": "Contactez-Nous",
-                "contact-subtitle": "Nous sommes là pour vous écouter et vous accompagner",
-                "address-title": "Adresse",
-                "address-text": "123 Rue de la Foi\nVille de l'Espérance, 75000",
-                "phone-title": "Téléphone",
-                "phone-text": "+33 1 23 45 67 89",
-                "email-title": "Email",
-                "email-text": "contact@tabernacledivine.org",
-                "hours-title": "Heures d'Ouverture",
-                "hours-text": "Lundi-Vendredi: 9h-17h\nSamedi: 10h-14h",
-                "form-title": "Envoyez-nous un Message",
-                "submit-btn": "Envoyer le Message",
-                
-                // Donate Section
-                "donate-title": "Soutenir Notre Mission",
-                "donate-subtitle": "Votre générosité nous aide à faire une différence",
-                "one-time-title": "Don Unique",
-                "one-time-text": "Faites un don unique pour soutenir nos ministères et projets",
-                "monthly-title": "Don Mensuel",
-                "monthly-text": "Soutenez-nous régulièrement pour un impact durable",
-                "specific-title": "Don Spécifique",
-                "specific-text": "Soutenez un ministère ou projet spécifique",
-                "donate-text": "Chaque don, quelle que soit sa taille, nous aide à poursuivre notre mission de partager l'amour de Christ, de soutenir notre communauté et de maintenir nos ministères. Nous nous engageons à une gestion responsable et transparente de tous les dons reçus.",
-                
-                // Footer
-                "footer-about-title": "Tabernacle des Ambassadeurs Divin",
-                "footer-about-text": "Une communauté de foi dédiée à servir Dieu et à partager l'amour du Christ avec le monde. Nous nous engageons à être des ambassadeurs de Christ dans notre communauté et au-delà.",
-                "footer-links-title": "Navigation",
-                "footer-contact-title": "Contact Rapide",
-                "copyright-text": "© 2023 Tabernacle des Ambassadeurs Divin. Tous droits réservés."
-            },
-            en: {
-                // Navigation
-                "home": "Home",
-                "about": "About Us",
-                "mission": "Our Mission",
-                "contact": "Contact Us",
-                "donate": "Donate",
-                
-                // Header
-                "church-name": "Tabernacle of Divine Ambassadors",
-                "church-tagline": "A Church of Hope, Faith, and Love",
-                
-                // Hero Section
-                "hero-title": "Welcome to Tabernacle of Divine Ambassadors",
-                "hero-text": "A faith community dedicated to serving God and sharing the love of Christ. Join us on our spiritual journey as we seek to grow in faith and make a difference in our community.",
-                "learn-more-btn": "Learn More",
-                "join-us-btn": "Join Us",
-                
-                // About Section
-                "about-title": "About Us",
-                "about-subtitle": "Discover our story, values, and vision for the future",
-                "about-heading": "Our Story and Vision",
-                "about-text1": "Tabernacle of Divine Ambassadors was founded in 2005 with the vision of creating a community of believers who reflect God's love and grace in our world.",
-                "about-text2": "We believe in the transformative power of the Gospel and are committed to being ambassadors of Christ in our community and beyond.",
-                "members-count": "850+",
-                "members-label": "Members",
-                "years-count": "18",
-                "years-label": "Years",
-                "ministries-count": "12",
-                "ministries-label": "Ministries",
-                "beliefs-title": "Our Beliefs",
-                "beliefs-text": "We believe in one eternal God existing in three persons: Father, Son, and Holy Spirit. We affirm the authority of Scripture and salvation by grace.",
-                "values-title": "Our Values",
-                "values-text": "Love, compassion, integrity, and service are at the heart of everything we do. We strive to live out these values in our community.",
-                
-                // Mission Section
-                "mission-title": "Our Mission",
-                "mission-subtitle": "Our calling and commitment to the community",
-                "mission-statement": "To make disciples of Jesus Christ, equip them for ministry, and send them to transform the world through the love and power of the Gospel.",
-                "worship-title": "Worship & Praise",
-                "worship-text": "We gather every Sunday to celebrate and worship God together. Our services combine dynamic praise and relevant biblical teaching.",
-                "worship-times": "Sunday: 9:00 AM & 11:00 AM | Wednesday: 7:00 PM",
-                "community-title": "Community & Service",
-                "community-text": "We serve our community through various ministries: prayer groups, Bible studies, family support, and social initiatives.",
-                "community-action": "Join one of our 12 ministry groups",
-                
-                // Contact Section
-                "contact-title": "Contact Us",
-                "contact-subtitle": "We're here to listen and support you",
-                "address-title": "Address",
-                "address-text": "123 Faith Street\nHope City, 75000",
-                "phone-title": "Phone",
-                "phone-text": "+33 1 23 45 67 89",
-                "email-title": "Email",
-                "email-text": "contact@divineambassadors.org",
-                "hours-title": "Opening Hours",
-                "hours-text": "Monday-Friday: 9am-5pm\nSaturday: 10am-2pm",
-                "form-title": "Send Us a Message",
-                "submit-btn": "Send Message",
-                
-                // Donate Section
-                "donate-title": "Support Our Mission",
-                "donate-subtitle": "Your generosity helps us make a difference",
-                "one-time-title": "One-Time Gift",
-                "one-time-text": "Make a one-time donation to support our ministries and projects",
-                "monthly-title": "Monthly Donation",
-                "monthly-text": "Support us regularly for lasting impact",
-                "specific-title": "Specific Donation",
-                "specific-text": "Support a specific ministry or project",
-                "donate-text": "Every donation, no matter the size, helps us continue our mission of sharing Christ's love, supporting our community, and maintaining our ministries. We are committed to responsible and transparent stewardship of all donations received.",
-                
-                // Footer
-                "footer-about-title": "Tabernacle of Divine Ambassadors",
-                "footer-about-text": "A faith community dedicated to serving God and sharing the love of Christ with the world. We are committed to being ambassadors of Christ in our community and beyond.",
-                "footer-links-title": "Navigation",
-                "footer-contact-title": "Quick Contact",
-                "copyright-text": "© 2023 Tabernacle of Divine Ambassadors. All rights reserved."
-            },
-            es: {
-                // Navigation
-                "home": "Inicio",
-                "about": "Sobre Nosotros",
-                "mission": "Nuestra Misión",
-                "contact": "Contáctenos",
-                "donate": "Donar",
-                
-                // Header
-                "church-name": "Tabernáculo de los Embajadores Divinos",
-                "church-tagline": "Una Iglesia de Esperanza, Fe y Amor",
-                
-                // Hero Section
-                "hero-title": "Bienvenidos al Tabernáculo de los Embajadores Divinos",
-                "hero-text": "Una comunidad de fe dedicada a servir a Dios y compartir el amor de Cristo. Únase a nosotros en nuestro viaje espiritual mientras buscamos crecer en la fe y marcar la diferencia en nuestra comunidad.",
-                "learn-more-btn": "Más Información",
-                "join-us-btn": "Únase a Nosotros",
-                
-                // About Section
-                "about-title": "Sobre Nosotros",
-                "about-subtitle": "Descubra nuestra historia, valores y visión para el futuro",
-                "about-heading": "Nuestra Historia y Visión",
-                "about-text1": "El Tabernáculo de los Embajadores Divinos fue fundado en 2005 con la visión de crear una comunidad de creyentes que reflejen el amor y la gracia de Dios en nuestro mundo.",
-                "about-text2": "Creemos en el poder transformador del Evangelio y estamos comprometidos a ser embajadores de Cristo en nuestra comunidad y más allá.",
-                "members-count": "850+",
-                "members-label": "Miembros",
-                "years-count": "18",
-                "years-label": "Años",
-                "ministries-count": "12",
-                "ministries-label": "Ministerios",
-                "beliefs-title": "Nuestras Creencias",
-                "beliefs-text": "Creemos en un solo Dios eterno que existe en tres personas: Padre, Hijo y Espíritu Santo. Afirmamos la autoridad de las Escrituras y la salvación por gracia.",
-                "values-title": "Nuestros Valores",
-                "values-text": "El amor, la compasión, la integridad y el servicio están en el corazón de todo lo que hacemos. Nos esforzamos por vivir estos valores en nuestra comunidad.",
-                
-                // Mission Section
-                "mission-title": "Nuestra Misión",
-                "mission-subtitle": "Nuestro llamado y compromiso con la comunidad",
-                "mission-statement": "Hacer discípulos de Jesucristo, equiparlos para el ministerio y enviarlos a transformar el mundo a través del amor y el poder del Evangelio.",
-                "worship-title": "Adoración y Alabanza",
-                "worship-text": "Nos reunimos todos los domingos para celebrar y adorar a Dios juntos. Nuestros servicios combinan alabanza dinámica y enseñanza bíblica relevante.",
-                "worship-times": "Domingo: 9:00 & 11:00 | Miércoles: 19:00",
-                "community-title": "Comunidad y Servicio",
-                "community-text": "Servimos a nuestra comunidad a través de varios ministerios: grupos de oración, estudios bíblicos, apoyo familiar e iniciativas sociales.",
-                "community-action": "Únase a uno de nuestros 12 grupos de ministerio",
-                
-                // Contact Section
-                "contact-title": "Contáctenos",
-                "contact-subtitle": "Estamos aquí para escuchar y apoyarle",
-                "address-title": "Dirección",
-                "address-text": "123 Calle de la Fe\nCiudad de la Esperanza, 75000",
-                "phone-title": "Teléfono",
-                "phone-text": "+33 1 23 45 67 89",
-                "email-title": "Correo Electrónico",
-                "email-text": "contacto@embajadoresdivinos.org",
-                "hours-title": "Horario de Atención",
-                "hours-text": "Lunes-Viernes: 9h-17h\nSábado: 10h-14h",
-                "form-title": "Envíenos un Mensaje",
-                "submit-btn": "Enviar Mensaje",
-                
-                // Donate Section
-                "donate-title": "Apoye Nuestra Misión",
-                "donate-subtitle": "Su generosidad nos ayuda a marcar la diferencia",
-                "one-time-title": "Donación Única",
-                "one-time-text": "Haga una donación única para apoyar nuestros ministerios y proyectos",
-                "monthly-title": "Donación Mensual",
-                "monthly-text": "Apóyenos regularmente para un impacto duradero",
-                "specific-title": "Donación Específica",
-                "specific-text": "Apoye un ministerio o proyecto específico",
-                "donate-text": "Cada donación, sin importar su tamaño, nos ayuda a continuar nuestra misión de compartir el amor de Cristo, apoyar a nuestra comunidad y mantener nuestros ministerios. Nos comprometemos a una gestión responsable y transparente de todas las donaciones recibidas.",
-                
-                // Footer
-                "footer-about-title": "Tabernáculo de los Embajadores Divinos",
-                "footer-about-text": "Una comunidad de fe dedicada a servir a Dios y compartir el amor de Cristo con el mundo. Estamos comprometidos a ser embajadores de Cristo en nuestra comunidad y más allá.",
-                "footer-links-title": "Navegación",
-                "footer-contact-title": "Contacto Rápido",
-                "copyright-text": "© 2023 Tabernáculo de los Embajadores Divinos. Todos los derechos reservados."
-            }
-        };
+        // Add Bootstrap JS for modals and navbar toggle
+        const bootstrapScript = document.createElement('script');
+        bootstrapScript.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js';
+        document.head.appendChild(bootstrapScript);
 
         // DOM Elements
-        const mobileToggle = document.getElementById('mobile-toggle');
-        const navMenu = document.getElementById('nav-menu');
-        const languageBtn = document.getElementById('language-btn');
-        const languageDropdown = document.getElementById('language-dropdown');
-        const languageOptions = document.querySelectorAll('.language-option');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const sections = document.querySelectorAll('.section');
-        const footerLinks = document.querySelectorAll('.footer-links a');
-        
-        // Current language
-        let currentLang = 'fr';
-        
-        // Mobile Menu Toggle
-        mobileToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            mobileToggle.innerHTML = navMenu.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-        
-        // Language Selector
-        languageBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            languageDropdown.classList.toggle('show');
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            languageDropdown.classList.remove('show');
-        });
-        
-        // Language Selection
-        languageOptions.forEach(option => {
-            option.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const lang = option.getAttribute('data-lang');
-                changeLanguage(lang);
-                
-                // Update active language
-                languageOptions.forEach(opt => opt.classList.remove('active'));
-                option.classList.add('active');
-                
-                // Update button
-                const flagSrc = option.querySelector('img').src;
-                const langText = option.querySelector('span').textContent;
-                languageBtn.innerHTML = `
-                    <img src="${flagSrc}" alt="${langText}" class="language-flag">
-                    <span>${langText.substring(0, 2)}</span>
-                    <i class="fas fa-chevron-down"></i>
-                `;
-                
-                languageDropdown.classList.remove('show');
-            });
-        });
-        
-        // Change Language Function
-        function changeLanguage(lang) {
-            currentLang = lang;
-            
-            // Update all translatable elements
-            Object.keys(translations[lang]).forEach(key => {
-                const elements = document.querySelectorAll(`[id="${key}"]`);
-                elements.forEach(element => {
-                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                        element.placeholder = translations[lang][key];
-                    } else {
-                        element.textContent = translations[lang][key];
-                    }
-                });
-            });
+        const vinInput = document.getElementById('vinInput');
+        const searchVinBtn = document.getElementById('searchVinBtn');
+        const paymentSection = document.getElementById('payment-section');
+        const paymentVin = document.getElementById('payment-vin');
+
+        // State variables
+        let currentVin = '';
+
+        // Validate VIN
+        function validateVIN(vin) {
+            return vin.length === 17 && /^[A-HJ-NPR-Z0-9]{17}$/i.test(vin);
         }
-        
-        // Section Navigation
-        function showSection(sectionId) {
-            // Hide all sections
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Show selected section
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Update active nav link
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-section') === sectionId) {
-                    link.classList.add('active');
-                }
-            });
-            
-            // Close mobile menu if open
-            if (navMenu.classList.contains('active')) {
-                navMenu.classList.remove('active');
-                mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-            
-            // Scroll to top for home, otherwise scroll to section
-            if (sectionId === 'home') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (document.getElementById(sectionId)) {
-                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-        
-        // Navigation Links
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const sectionId = link.getAttribute('data-section');
-                showSection(sectionId);
-            });
-        });
-        
-        // Footer Links
-        footerLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                if (link.getAttribute('data-section')) {
-                    e.preventDefault();
-                    const sectionId = link.getAttribute('data-section');
-                    showSection(sectionId);
-                }
-            });
-        });
-        
-        // Form Submission
-        const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            // Success messages
-            const successMessages = {
-                fr: "Merci pour votre message! Nous vous répondrons dans les plus brefs délais.",
-                en: "Thank you for your message! We'll get back to you as soon as possible.",
-                es: "¡Gracias por su mensaje! Nos pondremos en contacto con usted lo antes posible."
-            };
-            
-            // Show success message
-            alert(successMessages[currentLang]);
-            
-            // Reset form
-            contactForm.reset();
-        });
-        
-        // Donation Buttons
-        document.getElementById('one-time-btn').addEventListener('click', () => {
-            const messages = {
-                fr: "Vous serez redirigé vers notre plateforme de don sécurisée.",
-                en: "You will be redirected to our secure donation platform.",
-                es: "Será redirigido a nuestra plataforma de donación segura."
-            };
-            alert(messages[currentLang]);
-        });
-        
-        document.getElementById('monthly-btn').addEventListener('click', () => {
-            const messages = {
-                fr: "Devenez partenaire mensuel pour un impact durable!",
-                en: "Become a monthly partner for lasting impact!",
-                es: "¡Conviértase en socio mensual para un impacto duradero!"
-            };
-            alert(messages[currentLang]);
-        });
-        
-        document.getElementById('specific-btn').addEventListener('click', () => {
-            const messages = {
-                fr: "Choisissez le ministère ou projet que vous souhaitez soutenir.",
-                en: "Choose the ministry or project you want to support.",
-                es: "Elija el ministerio o proyecto que desea apoyar."
-            };
-            alert(messages[currentLang]);
-        });
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            changeLanguage('fr');
-            
-            // Add animation classes on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('fade-in');
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe elements for animations
-            document.querySelectorAll('.card, .section-title, .mission-highlights, .contact-container, .donate-options').forEach(el => {
-                observer.observe(el);
-            });
-        });
-        
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.boxShadow = 'var(--shadow-md)';
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
+
+        // Show payment options
+        function showPaymentOptions(vin) {
+            if (validateVIN(vin)) {
+                currentVin = vin.toUpperCase();
+                paymentVin.textContent = currentVin;
+                paymentSection.style.display = 'block';
+                
+                // Store VIN in sessionStorage for later use
+                sessionStorage.setItem('carUsed_vin', currentVin);
+                
+                // Scroll to payment section
+                paymentSection.scrollIntoView({ behavior: 'smooth' });
             } else {
-                header.style.boxShadow = 'var(--shadow-sm)';
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                alert('Please enter a valid 17-character VIN. VIN should contain only letters and numbers (except I, O, Q).');
             }
+        }
+
+        // Event Listeners
+        searchVinBtn.addEventListener('click', () => {
+            const vin = vinInput.value.trim().toUpperCase();
+            if (vin) {
+                showPaymentOptions(vin);
+            } else {
+                alert('Please enter a VIN to continue');
+            }
+        });
+
+        // Handle VIN input Enter key
+        vinInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const vin = vinInput.value.trim().toUpperCase();
+                if (vin) {
+                    showPaymentOptions(vin);
+                }
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#home') {
+                    // Scroll to top
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Initialize
+        window.onload = () => {
+            // Clear VIN input - don't auto-fill from sessionStorage
+            vinInput.value = '';
+            
+            // Hide payment section initially
+            paymentSection.style.display = 'none';
+            
+            // Check if there's a VIN in sessionStorage from previous session
+            // But we won't auto-fill it or show payment section
+            const storedVin = sessionStorage.getItem('carUsed_vin');
+            
+            // If user is coming back from report page, clear sessionStorage for new search
+            // We'll keep the VIN in sessionStorage only during the current session
+            // When page loads fresh, we don't want to auto-populate
+        };
+        
+        // Clear sessionStorage when user goes back to home page intentionally
+        window.addEventListener('pageshow', function(event) {
+            // If the page is being shown from cache (back/forward navigation)
+            // Clear the VIN input field
+            vinInput.value = '';
+        });
+
+        // Set up Stripe button click handler
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for Stripe button to be available
+            const checkStripeButton = setInterval(function() {
+                const stripeButton = document.querySelector('stripe-buy-button');
+                if (stripeButton) {
+                    clearInterval(checkStripeButton);
+                    
+                    // Add click event to parent container
+                    const stripeContainer = document.getElementById('stripe-button-container-regular');
+                    if (stripeContainer) {
+                        stripeContainer.addEventListener('click', function() {
+                            // Store the plan in sessionStorage when Stripe button is clicked
+                            const vin = sessionStorage.getItem('carUsed_vin') || currentVin;
+                            if (vin) {
+                                sessionStorage.setItem('carUsed_plan', 'regular');
+                                sessionStorage.setItem('carUsed_vin', vin);
+                                console.log('Stripe button clicked for regular report, VIN:', vin);
+                            }
+                        });
+                    }
+                }
+            }, 100);
         });
     </script>
 </body>
-    </html>
+                </html>
